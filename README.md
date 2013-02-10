@@ -50,7 +50,7 @@ PhpClosure::create()
     ->write();
 ```
 
-For compiker options description go to [official documentation](https://developers.google.com/closure/compiler/docs/overview)
+For compiler options description go to [official documentation](https://developers.google.com/closure/compiler/docs/overview)
 
 ### Todo
 
