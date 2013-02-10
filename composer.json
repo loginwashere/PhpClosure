@@ -1,0 +1,14 @@
+{
+  "name": "loginwashere/php-closure",
+  "description": "Fork of php closure class",
+  "minimum-stability": "stable",
+  "authors": [
+    {
+      "name": "Dmitriy Savchenko",
+      "email": "login.was.here@gmail.com"
+    }
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "3.7.*"
+  }
+}
