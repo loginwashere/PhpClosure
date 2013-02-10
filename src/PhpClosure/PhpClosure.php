@@ -425,14 +425,14 @@ class PhpClosure
                 $result = "if(window.console&&window.console.log){\r\n" .
                     "window.console.log('Closure Compiler Stats:\\n" .
                     "-----------------------\\n" .
-                    "Original Size: $response[originalSize]\\n" .
-                    "Original Gzip Size: $response[originalGzipSize]\\n" .
-                    "Compressed Size: $response[compressedSize]\\n" .
-                    "Compressed Gzip Size: $response[compressedGzipSize]\\n" .
-                    "Compile Time: $response[compileTime]\\n" .
+                    "Original Size: $response[statistics][originalSize]\\n" .
+                    "Original Gzip Size: $response[statistics][originalGzipSize]\\n" .
+                    "Compressed Size: $response[statistics][compressedSize]\\n" .
+                    "Compressed Gzip Size: $response[statistics][compressedGzipSize]\\n" .
+                    "Compile Time: $response[statistics][compileTime]\\n" .
                     "Generated: " . Date("Y/m/d H:i:s T") . "');\r\n";
-                if (isset($errors)) $result .= $this->_printWarnings($response[$errors], "error");
-                if (isset($warnings)) $result .= $this->_printWarnings($response[$warnings], "warn");
+                if (isset($response['errors'])) $result .= $this->_printWarnings($response['errors'], "error", $this->_output_format);
+                if (isset($response['warnings'])) $result .= $this->_printWarnings($response['warnings'], "warn", $this->_output_format);
                 $result .= "}\r\n\r\n";
             }
             $result .= "$response[compiledCode] \r\n";
@@ -490,11 +490,11 @@ class PhpClosure
     {
         $result = "";
         foreach ($warnings as $warning) {
-            $desc = addslashes($warning["value"]);
-            $type = $warning["attributes"]["type"];
-            $lineno = $warning["attributes"]["lineno"];
-            $charno = $warning["attributes"]["charno"];
-            $line = addslashes($warning["attributes"]["line"]);
+            $desc = addslashes($warning["warning"]);
+            $type = $warning["type"];
+            $lineno = $warning["lineno"];
+            $charno = $warning["charno"];
+            $line = addslashes($warning["line"]);
             $result .= "window.console.$level('$type: $desc\\nLine: $lineno\\nChar: $charno\\nLine: $line');\r\n";
         }
         return $result;
