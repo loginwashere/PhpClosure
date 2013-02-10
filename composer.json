@@ -1,14 +1,13 @@
 {
   "name": "loginwashere/php-closure",
-  "description": "Fork of php closure class",
+  "description": "Fork of php closure class for working with google closure compiler api",
+  "type": "library",
   "version": "0.0.1",
+  "license": "MIT",
   "minimum-stability": "stable",
-  "authors": [
-    {
-      "name": "Dmitriy Savchenko",
-      "email": "login.was.here@gmail.com"
-    }
-  ],
+  "require": {
+    "php": ">=5.3"
+  },
   "require-dev": {
     "phpunit/phpunit": "3.7.13"
   },
@@ -17,5 +16,15 @@
       "PhpClosure": "src/",
       "PhpClosure\\Tests": "tests/"
     }
+  },
+  "authors": [
+    {
+      "name": "Dmitriy Savchenko",
+      "email": "login.was.here@gmail.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/loginwashere/PhpClosure/issues",
+    "wiki": "https://github.com/loginwashere/PhpClosure/wiki"
   }
 }
