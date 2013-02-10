@@ -1,6 +1,7 @@
 {
   "name": "loginwashere/php-closure",
   "description": "Fork of php closure class",
+  "version": "0.0.1",
   "minimum-stability": "stable",
   "authors": [
     {
