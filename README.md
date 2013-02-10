@@ -8,6 +8,22 @@ for working with google closure compiler api that I found on Google Code
 ## Documentation
 Will be available on [phpclosure.readthedocs.org](https://phpclosure.readthedocs.org/en/latest/)
 
+## Installation
+
+It is assumed that library will be used with composer, so installation steps are:
+
+1. Install [composer](http://getcomposer.org/doc/00-intro.md)
+2. Add resent wersion of library to composer.json of your project.
+```json
+{
+    "require": {
+        "loginwashere/php-closure": "*"
+    }
+}
+```
+3. run `command php path/to/composer.phar install` (or `php path/to/composer.phar update` - if you've already executed install)
+
+
 ## Usage
 
 ```php
