@@ -633,7 +633,7 @@ class PhpClosure
      */
     private function _parseXml($data)
     {
-        $xml = new SimpleXMLElement($data);
+        $xml = new \SimpleXMLElement($data);
         return $this->_parseXmlHelper($xml);
     }
 
