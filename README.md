@@ -6,4 +6,4 @@ This is a fork of [php-closure](http://code.google.com/p/php-closure/) class
 for working with google closure compiler api that I found on Google Code
 
 ## Documentation
-Will be available on (phpclosure.readthedocs.org)[https://phpclosure.readthedocs.org/en/latest/]
+Will be available on [phpclosure.readthedocs.org](https://phpclosure.readthedocs.org/en/latest/)
