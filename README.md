@@ -21,7 +21,7 @@ It is assumed that library will be used with composer, so installation steps are
     }
 }
 ```
-3. run `command php path/to/composer.phar install` (or `php path/to/composer.phar update` - if you've already executed install)
+3. run command `php path/to/composer.phar install` (or `php path/to/composer.phar update` - if you've already executed install)
 
 
 ## Usage
