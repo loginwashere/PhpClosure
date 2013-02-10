@@ -43,25 +43,37 @@
  */
 class PhpClosure
 {
+    const MODE_WHITESPACE_ONLY = 'WHITESPACE_ONLY';
+    const MODE_SIMPLE_OPTIMIZATIONS = 'SIMPLE_OPTIMIZATIONS';
+    const MODE_ADVANCED_OPTIMIZATIONS = 'ADVANCED_OPTIMIZATIONS';
 
-    var $_srcs = array();
-    var $_mode = "WHITESPACE_ONLY";
-    var $_warning_level = "DEFAULT";
-    var $_use_closure_library = false;
-    var $_pretty_print = false;
-    var $_debug = true;
-    var $_cache_dir = "";
-    var $_code_url_prefix = "";
+    const WORNING_LEVEL_DEFAULT = "DEFAULT";
+    const WORNING_LEVEL_QUITE = "QUITE";
+    const WORNING_LEVEL_VERBOSE = "VERBOSE";
 
-    function PhpClosure()
+    private $_srcs = array();
+    private $_mode = self::MODE_SIMPLE_OPTIMIZATIONS;
+    private $_warning_level = self::WORNING_LEVEL_DEFAULT;
+    private $_use_closure_library = false;
+    private $_pretty_print = false;
+    private $_debug = true;
+    private $_cache_dir = "";
+    private $_code_url_prefix = "";
+
+    public function __construct()
     {
+    }
+
+    public static function create()
+    {
+        return new static;
     }
 
     /**
      * Adds a source file to the list of files to compile.  Files will be
      * concatenated in the order they are added.
      */
-    function add($file)
+    public function add($file)
     {
         $this->_srcs[] = $file;
         return $this;
@@ -72,7 +84,7 @@ class PhpClosure
      * not set then caching will be disabled and the compiler will be invoked
      * for every request (NOTE: this will hit ratelimits pretty fast!)
      */
-    function cacheDir($dir)
+    public function cacheDir($dir)
     {
         $this->_cache_dir = $dir;
         return $this;
@@ -82,7 +94,7 @@ class PhpClosure
      * Sets whether to use the Closure Library.  i.e. goog.requires will be
      * resolved and the library code made available.
      */
-    function useClosureLibrary()
+    public function useClosureLibrary()
     {
         $this->_use_closure_library = true;
         return $this;
@@ -110,7 +122,7 @@ class PhpClosure
      * This assumes your PHP script is in a directory /app/ and that the JS is in
      * /app/js/ and accessible via HTTP.
      */
-    function useCodeUrl($code_url_prefix)
+    public function useCodeUrl($code_url_prefix)
     {
         $this->_code_url_prefix = $code_url_prefix;
         return $this;
@@ -119,7 +131,7 @@ class PhpClosure
     /**
      * Tells the compiler to pretty print the output.
      */
-    function prettyPrint()
+    public function prettyPrint()
     {
         $this->_pretty_print = true;
         return $this;
@@ -129,7 +141,7 @@ class PhpClosure
      * Turns of the debug info.
      * By default statistics, errors and warnings are logged to the console.
      */
-    function hideDebugInfo()
+    public function hideDebugInfo()
     {
         $this->_debug = false;
         return $this;
@@ -138,27 +150,27 @@ class PhpClosure
     /**
      * Sets the compilation mode to optimize whitespace only.
      */
-    function whitespaceOnly()
+    public function whitespaceOnly()
     {
-        $this->_mode = "WHITESPACE_ONLY";
+        $this->_mode = self::MODE_WHITESPACE_ONLY;
         return $this;
     }
 
     /**
      * Sets the compilation mode to simple optimizations.
      */
-    function simpleMode()
+    public function simpleMode()
     {
-        $this->_mode = "SIMPLE_OPTIMIZATIONS";
+        $this->_mode = self::MODE_SIMPLE_OPTIMIZATIONS;
         return $this;
     }
 
     /**
      * Sets the compilation mode to advanced optimizations (recommended).
      */
-    function advancedMode()
+    public function advancedMode()
     {
-        $this->_mode = "ADVANCED_OPTIMIZATIONS";
+        $this->_mode = self::MODE_ADVANCED_OPTIMIZATIONS;
         return $this;
     }
 
@@ -166,7 +178,7 @@ class PhpClosure
      * Gets the compilation mode from the URL, set the mode param to
      * 'w', 's' or 'a'.
      */
-    function getModeFromUrl()
+    public function getModeFromUrl()
     {
         if ($_GET['mode'] == 's') $this->simpleMode();
         else if ($_GET['mode'] == 'a') $this->advancedMode();
@@ -177,27 +189,27 @@ class PhpClosure
     /**
      * Sets the warning level to QUIET.
      */
-    function quiet()
+    public function quiet()
     {
-        $this->_warning_level = "QUIET";
+        $this->_warning_level = self::WORNING_LEVEL_QUITE;
         return $this;
     }
 
     /**
      * Sets the default warning level.
      */
-    function defaultWarnings()
+    public function defaultWarnings()
     {
-        $this->_warning_level = "DEFAULT";
+        $this->_warning_level = self::WORNING_LEVEL_DEFAULT;
         return $this;
     }
 
     /**
      * Sets the warning level to VERBOSE.
      */
-    function verbose()
+    public function verbose()
     {
-        $this->_warning_level = "VERBOSE";
+        $this->_warning_level = self::WORNING_LEVEL_VERBOSE;
         return $this;
     }
 
@@ -205,7 +217,7 @@ class PhpClosure
      * Writes the compiled response.  Reading from either the cache, or
      * invoking a recompile, if necessary.
      */
-    function write()
+    public function write()
     {
         header("Content-Type: text/javascript");
 
@@ -239,7 +251,7 @@ class PhpClosure
 
     // ----- Privates -----
 
-    function _isRecompileNeeded($cache_file)
+    private function _isRecompileNeeded($cache_file)
     {
         // If there is no cache file, we obviously need to recompile.
         if (!file_exists($cache_file)) return true;
@@ -260,7 +272,7 @@ class PhpClosure
         return false;
     }
 
-    function _compile()
+    private function _compile()
     {
         // Quieten strict notices.
         $code = $originalSize = $originalGzipSize = $compressedSize = $compressedGzipSize = $compileTime = '';
@@ -323,7 +335,7 @@ class PhpClosure
         return $result;
     }
 
-    function _printWarnings($warnings, $level = "log")
+    private function _printWarnings($warnings, $level = "log")
     {
         $result = "";
         foreach ($warnings as $warning) {
@@ -337,12 +349,12 @@ class PhpClosure
         return $result;
     }
 
-    function _getCacheFileName()
+    private function _getCacheFileName()
     {
         return $this->_cache_dir . $this->_getHash() . ".js";
     }
 
-    function _getHash()
+    private function _getHash()
     {
         return md5(implode(",", $this->_srcs) . "-" .
             $this->_mode . "-" .
@@ -352,7 +364,7 @@ class PhpClosure
             $this->_debug);
     }
 
-    function _getParams()
+    private function _getParams()
     {
         $params = array();
         foreach ($this->_getParamList() as $key => $value) {
@@ -361,7 +373,7 @@ class PhpClosure
         return implode("&", $params);
     }
 
-    function _getParamList()
+    private function _getParamList()
     {
         $params = array();
         if ($this->_code_url_prefix) {
@@ -386,7 +398,7 @@ class PhpClosure
         return $params;
     }
 
-    function _readSources()
+    private function _readSources()
     {
         $code = "";
         foreach ($this->_srcs as $src) {
@@ -395,7 +407,7 @@ class PhpClosure
         return $code;
     }
 
-    function _makeRequest()
+    private function _makeRequest()
     {
         $data = $this->_getParams();
         $referer = @$_SERVER["HTTP_REFERER"] or "";
@@ -428,7 +440,7 @@ class PhpClosure
         return $data;
     }
 
-    function _unchunk($data)
+    private function _unchunk($data)
     {
         $fp = 0;
         $outData = "";
@@ -443,13 +455,13 @@ class PhpClosure
         return $outData;
     }
 
-    function _parseXml($data)
+    private function _parseXml($data)
     {
         $xml = new SimpleXMLElement($data);
         return $this->_parseXmlHelper($xml);
     }
 
-    function _parseXmlHelper($xml)
+    private function _parseXmlHelper($xml)
     {
         $tree = null;
         foreach ($xml->children() as $name => $child) {
